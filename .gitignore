@@ -1,0 +1,34 @@
+# ---- 构建产物 ----
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+[Ll]ogs/
+publish/
+*.user
+*.suo
+*.userprefs
+*.cache
+
+# ---- Visual Studio / Rider ----
+.vs/
+.idea/
+*.sln.docstates
+
+# ---- 运行时产生的用户数据（含隐私，切勿提交）----
+credential.bin
+settings.json
+watchdog.state
+watchdog.pid
+temp-dial.pbk
+logs/
+.publish/
+
+# ---- 系统 ----
+Thumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+.DS_Store
+
+# ---- NuGet ----
+*.nupkg
+packages/

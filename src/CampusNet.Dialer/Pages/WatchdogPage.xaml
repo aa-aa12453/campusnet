@@ -1,0 +1,118 @@
+<Page x:Class="CampusNet.Dialer.Pages.WatchdogPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+      Title="自动重拨">
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <StackPanel Margin="28,20,28,24" MaxWidth="700" HorizontalAlignment="Stretch">
+            <TextBlock Text="自动重拨" FontSize="26" FontWeight="SemiBold" />
+            <TextBlock Text="后台守护网络，断线自动重连，息屏/休眠恢复后也能自动联网。"
+                       Foreground="{DynamicResource TextFillColorSecondaryBrush}" Margin="0,4,0,0" />
+
+            <!-- 开关 -->
+            <ui:CardControl Margin="0,18,0,0" Padding="26,12">
+                <StackPanel>
+                    <ui:ToggleSwitch x:Name="WatchdogSwitch" Content="开启断线自动重拨"
+                                     Margin="0,8" Checked="OnWatchdogChecked" Unchecked="OnWatchdogUnchecked" />
+                    <ui:ToggleSwitch x:Name="AutoStartSwitch" Content="开机自动启动守护"
+                                     Margin="0,8" Checked="OnAutoStartChecked" Unchecked="OnAutoStartUnchecked" />
+                </StackPanel>
+            </ui:CardControl>
+
+            <!-- 参数 -->
+            <TextBlock Text="守护参数" FontSize="18" FontWeight="SemiBold" Margin="0,22,0,0" />
+            <ui:CardControl Margin="0,10,0,0" Padding="26,20">
+                <StackPanel>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="检测间隔" VerticalAlignment="Center" />
+                        <TextBlock Grid.Column="1" x:Name="IntervalValue" Text="15 秒"
+                                   MinWidth="60" TextAlignment="Right" VerticalAlignment="Center" />
+                    </Grid>
+                    <Slider x:Name="IntervalSlider" Minimum="10" Maximum="60" Value="15"
+                            Margin="0,6,0,0" TickFrequency="5" IsSnapToTickEnabled="True"
+                            ValueChanged="OnIntervalChanged" />
+
+                    <Grid Margin="0,18,0,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="连续失败几次才重拨" VerticalAlignment="Center" />
+                        <TextBlock Grid.Column="1" x:Name="ThresholdValue" Text="2 次"
+                                   MinWidth="60" TextAlignment="Right" VerticalAlignment="Center" />
+                    </Grid>
+                    <Slider x:Name="ThresholdSlider" Minimum="1" Maximum="5" Value="2"
+                            Margin="0,6,0,0" TickFrequency="1" IsSnapToTickEnabled="True"
+                            ValueChanged="OnThresholdChanged" />
+
+                    <Grid Margin="0,18,0,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="重拨后冷却时间" VerticalAlignment="Center" />
+                        <TextBlock Grid.Column="1" x:Name="CooldownValue" Text="60 秒"
+                                   MinWidth="60" TextAlignment="Right" VerticalAlignment="Center" />
+                    </Grid>
+                    <Slider x:Name="CooldownSlider" Minimum="30" Maximum="300" Value="60"
+                            Margin="0,6,0,0" TickFrequency="30" IsSnapToTickEnabled="True"
+                            ValueChanged="OnCooldownChanged" />
+                </StackPanel>
+            </ui:CardControl>
+
+            <!-- 运行状态 -->
+            <TextBlock Text="运行状态" FontSize="18" FontWeight="SemiBold" Margin="0,22,0,0" />
+            <ui:CardControl Margin="0,10,0,0" Padding="26,20">
+                <StackPanel>
+                    <Grid Margin="0,2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="守护状态" Foreground="{DynamicResource TextFillColorSecondaryBrush}" MinWidth="90" />
+                        <TextBlock Grid.Column="1" x:Name="StateRunning" Text="—" />
+                    </Grid>
+                    <Grid Margin="0,8">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="进程 PID" Foreground="{DynamicResource TextFillColorSecondaryBrush}" MinWidth="90" />
+                        <TextBlock Grid.Column="1" x:Name="StatePid" Text="—" />
+                    </Grid>
+                    <Grid Margin="0,8">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="启动时间" Foreground="{DynamicResource TextFillColorSecondaryBrush}" MinWidth="90" />
+                        <TextBlock Grid.Column="1" x:Name="StateStartTime" Text="—" />
+                    </Grid>
+                    <Grid Margin="0,8">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="上次检测" Foreground="{DynamicResource TextFillColorSecondaryBrush}" MinWidth="90" />
+                        <TextBlock Grid.Column="1" x:Name="StateLastCheck" Text="—" />
+                    </Grid>
+                    <Grid Margin="0,8">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="上次重拨" Foreground="{DynamicResource TextFillColorSecondaryBrush}" MinWidth="90" />
+                        <TextBlock Grid.Column="1" x:Name="StateLastDial" Text="—" />
+                    </Grid>
+                </StackPanel>
+            </ui:CardControl>
+
+            <ui:InfoBar x:Name="MessageBar" Margin="0,16,0,0" IsOpen="False"
+                        IsClosable="True" Severity="Informational" />
+        </StackPanel>
+    </ScrollViewer>
+</Page>

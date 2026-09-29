@@ -1,0 +1,48 @@
+<Page x:Class="CampusNet.Dialer.Pages.AboutPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+      Title="关于">
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <StackPanel Margin="28,20,28,24" MaxWidth="680" HorizontalAlignment="Stretch">
+            <TextBlock Text="关于" FontSize="26" FontWeight="SemiBold" />
+
+            <ui:CardControl Margin="0,18,0,0" Padding="30,28">
+                <StackPanel HorizontalAlignment="Center">
+                    <Image Source="/Assets/logo.png" Width="120" Height="120" />
+                    <TextBlock Text="校园网自动拨号" FontSize="22" FontWeight="SemiBold"
+                               Margin="0,16,0,0" HorizontalAlignment="Center" />
+                    <TextBlock Text="版本 1.0.0" FontSize="14"
+                               Foreground="{DynamicResource TextFillColorSecondaryBrush}"
+                               Margin="0,6,0,0" HorizontalAlignment="Center" />
+                    <TextBlock Text="开机自动连接校园网，断线自动重拨。" TextWrapping="Wrap"
+                               MaxWidth="420" TextAlignment="Center" Margin="0,12,0,0"
+                               Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+                </StackPanel>
+            </ui:CardControl>
+
+            <ui:CardControl Margin="0,14,0,0" Padding="26,20">
+                <StackPanel>
+                    <TextBlock Text="数据与隐私" FontSize="16" FontWeight="SemiBold" />
+                    <TextBlock Text="账号密码使用 Windows DPAPI 加密保存在本机，仅当前账户可解密；程序不联网上传任何数据。"
+                               TextWrapping="Wrap" Margin="0,8,0,0" FontSize="13"
+                               Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+                    <TextBlock x:Name="DataLocationText" Margin="0,10,0,0" FontSize="13"
+                               TextWrapping="Wrap" Text="数据位置：…" />
+                    <ui:Button Content="打开数据文件夹" Appearance="Transparent"
+                               Margin="0,12,0,0" HorizontalAlignment="Left" Click="OnOpenData">
+                        <ui:Button.Icon><ui:SymbolIcon Symbol="FolderOpen24" /></ui:Button.Icon>
+                    </ui:Button>
+                </StackPanel>
+            </ui:CardControl>
+
+            <ui:Button Content="彻底卸载" Appearance="Caution" Padding="22,9"
+                       Margin="0,18,0,0" HorizontalAlignment="Left" Click="OnUninstall">
+                <ui:Button.Icon><ui:SymbolIcon Symbol="Delete24" /></ui:Button.Icon>
+            </ui:Button>
+            <TextBlock Text="将停止守护、取消开机自启、删除账号密码和程序文件。"
+                       Margin="2,8,0,0" FontSize="13"
+                       Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+        </StackPanel>
+    </ScrollViewer>
+</Page>
